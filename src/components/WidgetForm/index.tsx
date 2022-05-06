@@ -7,12 +7,13 @@ import { FcIdea } from 'react-icons/fc';
 import { BsFillGearFill } from 'react-icons/bs';
 import { FeedbackTypeStep } from './FeedbackTypeStep';
 import { FeedbackContentStep } from './FeedbackContentStep';
+import { FeedbackSuccessStep } from './FeedbackSuccessStep';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
   headerText: {
     fontSize: '20px',
-    lineHeight: '24px',
+    lineHeight: '1.25rem',
   },
   footerText: {
     fontSize: '12px',
@@ -62,10 +63,10 @@ export const feedbackTypes = {
   BUG: {
     title: 'Problema',
     iconTypeStep: (
-      <MdReportProblem style={{ color: 'red', marginBottom: 15 }} size={40} />
+      <MdReportProblem style={{ color: '#9e1a1a', marginBottom: 15 }} size={40} />
     ),
     iconContentStep: (
-      <MdReportProblem style={{ color: 'red', marginRight: '0.25rem' }} size={25} />
+      <MdReportProblem style={{ color: '#9e1a1a', marginRight: '0.25rem' }} size={25} />
     ),
   },
   IDEA: {
@@ -76,10 +77,10 @@ export const feedbackTypes = {
   OTHER: {
     title: 'Outro',
     iconTypeStep: (
-      <BsFillGearFill style={{ color: 'green', marginBottom: 15 }} size={40} />
+      <BsFillGearFill style={{ color: '#378805', marginBottom: 15 }} size={40} />
     ),
     iconContentStep: (
-      <BsFillGearFill style={{ color: 'green', marginRight: '0.25rem' }} size={25} />
+      <BsFillGearFill style={{ color: '#378805', marginRight: '0.25rem' }} size={25} />
     ),
   },
 };
@@ -89,18 +90,24 @@ export type FeedbackType = keyof typeof feedbackTypes;
 export function WidgetForm({ popupStateClose }: WidgetFormProps) {
   const classes = useStyles();
   const [feedbackType, setFeedbackType] = useState<FeedbackType | null>(null);
+  const [feedbackSent, setFeedbackSent] = useState(false);
 
   function handleClosePopover() {
     popupStateClose();
   }
 
   function handleRestartFeedback() {
+    setFeedbackSent(false);
     setFeedbackType(null);
   }
 
   return (
     <>
-      {!feedbackType ? (
+      {feedbackSent ? (
+        <FeedbackSuccessStep handleClosePopover={handleClosePopover} handleRestartFeedback={handleRestartFeedback} />
+      ) : (
+        <>
+          {!feedbackType ? (
         <FeedbackTypeStep
           setFeedbackType={setFeedbackType}
           handleClosePopover={handleClosePopover}
@@ -110,7 +117,10 @@ export function WidgetForm({ popupStateClose }: WidgetFormProps) {
           handleClosePopover={handleClosePopover}
           feedbackType={feedbackType}
           handleRestartFeedback={handleRestartFeedback}
+          onFeedbackSent={() => setFeedbackSent(true)}
         />
+      )}
+        </>
       )}
 
       <Box>

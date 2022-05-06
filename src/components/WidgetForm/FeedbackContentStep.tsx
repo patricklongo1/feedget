@@ -7,6 +7,8 @@ import { CloseButton } from '../CloseButton';
 import { makeStyles } from '@material-ui/core/styles';
 import { feedbackTypes, FeedbackType } from '.';
 import { FaArrowLeft } from 'react-icons/fa';
+import { ScreenshotButton } from './ScreenshotButton';
+import { useState } from 'react';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -18,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
   },
   headerText: {
     fontSize: '20px',
-    lineHeight: '24px',
+    lineHeight: '1.25rem',
   },
   form: {
     width: '100%',
@@ -36,9 +38,9 @@ const useStyles = makeStyles((theme) => ({
     padding: '10px',
     minWidth: '304px',
     width: '96%',
-    fontSize: '0.875rem',
-    lineHeight: '1.25rem',
-    color: theme.palette.text.primary,
+    fontSize: '1rem',
+    lineHeight: '1rem',
+    color: theme.palette.text.hint,
     borderColor: theme.palette.primary.main,
     resize: 'none',
     borderRadius: '8px',
@@ -92,15 +94,29 @@ interface FeedbackContentStepProps {
   handleClosePopover: () => void;
   feedbackType: FeedbackType;
   handleRestartFeedback: () => void;
+  onFeedbackSent: () => void;
 }
 
 export function FeedbackContentStep({
   handleClosePopover,
   feedbackType,
   handleRestartFeedback,
+  onFeedbackSent
 }: FeedbackContentStepProps) {
   const classes = useStyles();
   const feedbackTypeInfo = feedbackTypes[feedbackType];
+  const [screenshot, setScreenshot] = useState<string | null>(null)
+  const [comment, setComment] = useState('');
+
+  async function handleSubmitFeedback() {
+    console.log({
+      type: feedbackTypeInfo.title,
+      comment,
+      screenshot
+    })
+
+    onFeedbackSent()
+  }
 
   return (
     <>
@@ -114,20 +130,23 @@ export function FeedbackContentStep({
         <CloseButton handleClosePopover={handleClosePopover} />
       </Box>
 
-      <form action="" className={classes.form}>
+      <Box className={classes.form}>
         <Box className={classes.container}>
           <TextareaAutosize
-            minRows={4}
-            maxRows={4}
+            minRows={3}
+            maxRows={3}
             aria-label="maximum height"
             className={classes.textArea}
             placeholder="Conte com detalhes o que está acontecendo..."
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
           />
         </Box>
-      </form>
+      </Box>
 
       <Box className={classes.footer}>
-        <Button type="submit" className={classes.sendButton}>
+        <ScreenshotButton screenshot={screenshot} setScreenshot={setScreenshot} />
+        <Button type="submit" className={classes.sendButton} onClick={handleSubmitFeedback} disabled={comment === ''}>
           Enviar feedback
         </Button>
       </Box>

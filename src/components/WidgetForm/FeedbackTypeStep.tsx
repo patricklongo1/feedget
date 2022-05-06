@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
   root: {},
   headerText: {
     fontSize: '20px',
-    lineHeight: '24px',
+    lineHeight: '1.25rem',
   },
   footerText: {
     fontSize: '12px',

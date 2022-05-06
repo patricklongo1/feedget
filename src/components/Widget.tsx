@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
       border: '1px solid',
       borderColor: theme.palette.primary.main,
       borderRadius: '16px',
-      marginBottom: '15px',
+      marginBottom: '1rem',
       color: theme.palette.primary.main,
       maxWidth: '330px',
       ['@media (max-width:768px)']: {
@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: '100%',
+    borderRadius: '8px',
     height: '3.5rem',
     minWidth: '1.5rem',
     '&:hover': {

@@ -25,9 +25,10 @@ const theme = createTheme(
         primary: '#9c9c9c',
         secondary: '#eee',
         disabled: '#999999',
+        hint: '#444',
       },
       error: {
-        main: '#f12323',
+        main: '#9e1a1a',
         light: '#f78585',
       },
       divider: '#f4f4f4',
