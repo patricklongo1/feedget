@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'center',
     '&:hover': {
-      backgroundColor: theme.palette.primary.light,
+      backgroundColor: `${theme.palette.primary.light} !important`,
       border: '1px solid',
       borderColor: theme.palette.primary.main,
     },
@@ -31,13 +31,18 @@ const useStyles = makeStyles((theme) => ({
     height: 45,
     borderRadius: '8px',
     border: `1px solid transparent`,
-    display: 'flex',
-    alignItems: 'flex-end',
-    justifyContent: 'flex-end',
-    color: theme.palette.error.main,
+    position: 'relative',
     '&:hover': {
-      color: theme.palette.error.light,
+      '& $deleteIcon': {
+        color: theme.palette.error.light,
+      },
     },
+  },
+  deleteIcon: {
+    color: theme.palette.error.main,
+    position: 'absolute',
+    right: 2,
+    bottom: 2,
   }
 }));
 
@@ -70,7 +75,7 @@ export function ScreenshotButton({ screenshot, setScreenshot }: ScreenshotButton
           backgroundSize: 180 //demo porpose
         }}
       >
-        <FaTrash size={15} />
+        <FaTrash size={15} className={classes.deleteIcon} />
       </IconButton>
     )
   }
